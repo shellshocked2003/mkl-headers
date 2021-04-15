@@ -35,7 +35,10 @@ class mklDynamic(ConanFile):
         tools.get(source_url, destination=self._source_subfolder)
 
     def package(self):
-        include_folder = os.path.join(self._source_subfolder, "include")
+        if self.settings.os == "Windows":
+            include_folder = os.path.join(self._source_subfolder, "Library\include")
+        else:
+            include_folder = os.path.join(self._source_subfolder, "include")
         self.copy("LICENSE.txt", dst="licenses", src=self._source_subfolder + "/info")        
         self.copy(pattern="*", dst="include", src=include_folder)
 
